@@ -27,10 +27,13 @@ public class GUI extends VBox{
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
 
-		TextArea preview = new TextArea();
+        //generating buttons and text boxes
+        TextArea preview = new TextArea();
 		TextArea errorLog = new TextArea();
 		Button button1 = new Button("Load");
 		Button button2 = new Button("Save as");
+		preview.setEditable(false);
+		errorLog.setEditable(false);
 
 		button1.setOnAction(e -> {
 
@@ -44,6 +47,7 @@ public class GUI extends VBox{
 				FileReader file = new FileReader(selectedFile.getAbsolutePath());
 				BufferedReader br = new BufferedReader(file);
 				formatString = new StringFormatter(br);
+				preview.appendText(formatString.toString());
 
 
 			} catch (NullPointerException e1) {

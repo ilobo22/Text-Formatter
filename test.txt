@@ -1,4 +1,8 @@
--l
+-r
 -i
 -d
-This is a test.
+This should be right justified.
+-l
+-r
+This should be left justified.
+This should also be left justified.
