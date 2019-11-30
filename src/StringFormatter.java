@@ -60,13 +60,13 @@ public class StringFormatter {
 						break;
 					case 'i': //temp = indent(temp);
 						break;
-					case 'b': //temp = multipleIndent(temp);
+					case 'b': //temp = multipleIndent(temp); Brandon
 						break;
-					case '2': //temp = twoColumns(temp);
+					case '2': //temp = twoColumns(temp); Brandon/Andrew
 						break;
-					case '1': //temp = oneColumn(temp);
+					case '1': //temp = oneColumn(temp);	Brandon
 						break;
-					case 'e': //temp = blankLine(temp);
+					case 'e': //temp = blankLine(temp); Brandon
 						break;
 					}
 				}
