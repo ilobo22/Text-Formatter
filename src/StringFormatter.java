@@ -50,7 +50,7 @@ public class StringFormatter {
 						break;
 					case 'l': temp = leftJustify(temp);
 						break;
-					case 't': //temp = centerTitle(finalVal);
+					case 't': temp = centerTitle(temp);
 						break;
 					case 'n': //temp = removeIndent(temp);
 						break;
@@ -70,27 +70,96 @@ public class StringFormatter {
 						break;
 					}
 				}
-				//setting command list back to defaults
-//				commandList.clear();
-//				commandList.add("-1");
-//				commandList.add("-l");
-//				commandList.add("-s");
 				finalVal+= temp;
 				finalVal += "\n"; //reset for a new string to be formatted
-			}
-			
-			
+			}	
 		}		
 	}
 	
 	//right justifies 
 	public String rightJustify(String str) {
-		return String.format("%80s", str);
+		int limit = 80;
+		ArrayList<String> strings = new ArrayList<String>();
+		String finalString = "";
+		while(str.length() > limit)
+		{
+			finalString = "";
+			strings.add(str.substring(0, limit));
+			str = str.substring(limit + 1, str.length());
+		}
+		strings.add(str);
+		for(int i = 0; i < strings.size(); i++)
+		{
+			if(i < strings.size() - 1)
+				finalString += String.format("%80s", strings.get(i)) + "\n";
+			else
+				finalString += String.format("%80s", strings.get(i));
+		}
+		return finalString;
 	}
+	
+	/*
+	public String centerJustify(String str) {
+		String spaces = "";
+		int numSpacesToAddEachGap;
+		int count = 0;
+		int numSpacesToAdd = 80 - str.length();
+		for(int i = 0; i < str.length(); i++)
+		{
+			if(str.charAt(i) == ' ')
+				count++;
+		}
+		numSpacesToAddEachGap = count/numSpacesToAdd;
+		
+		for(int i = 0; i < numSpacesToAddEachGap; i++)
+			spaces += " ";
+	}*/
 	
 	//left justifies
 	public String leftJustify(String str) {
-		return String.format("%-80s", str);
+		int limit = 80;
+		ArrayList<String> strings = new ArrayList<String>();
+		String finalString = "";
+		while(str.length() > limit)
+		{
+			strings.add(str.substring(0, limit));
+			str = str.substring(limit + 1, str.length());
+		}
+		strings.add(str);
+		for(int i = 0; i < strings.size(); i++)
+		{
+			if(i < strings.size() - 1)
+				finalString += strings.get(i) + "\n";
+			else
+				finalString += strings.get(i);
+		}
+		return finalString;
+	}
+	
+	//centers a title
+	public String centerTitle(String str) {
+		int limit = 80;
+		int numSpaces = limit - (str.length() % limit);
+		String spacePadding = "";
+		for(int i = 0; i < numSpaces/2; i++)
+			spacePadding += " ";
+		ArrayList<String> strings = new ArrayList<String>();
+		String finalString = "";
+		while(str.length() > limit)
+		{
+			strings.add(str.substring(0, limit));
+			str = str.substring(limit + 1, str.length());
+		}
+		strings.add(str);
+		System.out.println(strings.get(0));
+		for(int i = 0; i < strings.size(); i++)
+		{
+			if(i < strings.size() - 1)
+				finalString += strings.get(i) + "\n";
+			else
+				finalString += spacePadding + strings.get(i) + spacePadding;
+		}
+		return finalString;
 	}
 	
 	//returns the final string
