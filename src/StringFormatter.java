@@ -29,6 +29,8 @@ public class StringFormatter {
 				
 				if(count1>0 && count2>0) {
 					commandList.clear();
+					count1 = 0;
+					count2 = 0;
 				}
 				
 				count1++;
@@ -46,7 +48,7 @@ public class StringFormatter {
 					switch(commandList.get(i).charAt(1)) {
 					case 'r': temp = rightJustify(temp);
 						break;
-					case 'c': //temp = centerJustify(temp);
+					case 'c': temp = centerJustify(temp);
 						break;
 					case 'l': temp = leftJustify(temp);
 						break;
@@ -81,6 +83,8 @@ public class StringFormatter {
 		int limit = 80;
 		ArrayList<String> strings = new ArrayList<String>();
 		String finalString = "";
+		
+		//breaks strings into 80 character substrings and stores them
 		while(str.length() > limit)
 		{
 			finalString = "";
@@ -88,6 +92,8 @@ public class StringFormatter {
 			str = str.substring(limit + 1, str.length());
 		}
 		strings.add(str);
+		
+		//combines substrings into one string
 		for(int i = 0; i < strings.size(); i++)
 		{
 			if(i < strings.size() - 1)
@@ -98,8 +104,9 @@ public class StringFormatter {
 		return finalString;
 	}
 	
-	/*
+	
 	public String centerJustify(String str) {
+		/*
 		String spaces = "";
 		int numSpacesToAddEachGap;
 		int count = 0;
@@ -112,20 +119,43 @@ public class StringFormatter {
 		numSpacesToAddEachGap = count/numSpacesToAdd;
 		
 		for(int i = 0; i < numSpacesToAddEachGap; i++)
-			spaces += " ";
-	}*/
+			spaces += " "; */
+		String finalString = "";
+		int spaces = 0;
+		int limit = 80;
+		String[] wordList = str.split("\\W+");
+		while(finalString.length() <= limit-wordList[wordList.length-1].length())
+		{
+			finalString = "";
+			for(int i = 0; i < wordList.length-1; i++)
+			{
+				finalString += wordList[i];
+				for(int j = 0; j < spaces; j++)
+				{
+					finalString += " ";
+				}
+			}
+			finalString += wordList[wordList.length-1];
+			spaces++;
+		}
+		return finalString;
+	}
 	
 	//left justifies
 	public String leftJustify(String str) {
 		int limit = 80;
 		ArrayList<String> strings = new ArrayList<String>();
 		String finalString = "";
+		
+		//breaks strings into 80 character substrings and stores them
 		while(str.length() > limit)
 		{
 			strings.add(str.substring(0, limit));
 			str = str.substring(limit + 1, str.length());
 		}
 		strings.add(str);
+		
+		//combines substrings into one string
 		for(int i = 0; i < strings.size(); i++)
 		{
 			if(i < strings.size() - 1)
@@ -145,13 +175,16 @@ public class StringFormatter {
 			spacePadding += " ";
 		ArrayList<String> strings = new ArrayList<String>();
 		String finalString = "";
+		
+		//breaks strings into 80 character substrings and stores them
 		while(str.length() > limit)
 		{
 			strings.add(str.substring(0, limit));
 			str = str.substring(limit + 1, str.length());
 		}
 		strings.add(str);
-		System.out.println(strings.get(0));
+		
+		//combines strings into one string
 		for(int i = 0; i < strings.size(); i++)
 		{
 			if(i < strings.size() - 1)
