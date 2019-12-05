@@ -37,7 +37,7 @@ public class StringFormatter {
 
 			}
 			if (lJust) {
-
+				
 			}
 			if (tCenter) {
 
@@ -58,7 +58,7 @@ public class StringFormatter {
 
 			}
 			if (sCol) {
-				finalVal = text;
+			
 			}
 			if (dCol) {
 				text = twoColumn(text) + "\n";
@@ -110,6 +110,7 @@ public class StringFormatter {
 	}
 
 	public String twoColumn(String str) {
+		System.out.println(str);
 		int size = str.length();
 		int split = size/2;
 		
