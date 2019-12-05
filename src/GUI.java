@@ -32,8 +32,9 @@ public class GUI extends VBox{
 
         //generating buttons and text boxes
         TextArea preview = new TextArea();
+        preview.setPrefWidth(600);
         preview.setWrapText(true);
-        preview.setMouseTransparent(true);
+        //preview.setMouseTransparent(true);
 		TextArea errorLog = new TextArea();
 		errorLog.setMouseTransparent(true);
 		Button button1 = new Button("Load");
@@ -55,7 +56,8 @@ public class GUI extends VBox{
 				FileReader file = new FileReader(selectedFile.getAbsolutePath());
 				BufferedReader br = new BufferedReader(file);
 				formatString = new StringFormatter(br);
-				preview.setFont(Font.font("Monospace", 10.8));
+				preview.setFont(Font.font("Monospace", 11.1));
+				preview.clear();
 				preview.appendText(formatString.toString());
 				file.close();
 				br.close();
@@ -100,8 +102,10 @@ public class GUI extends VBox{
 
 		Label label = new Label("Preview");
 		Label label1 = new Label("ErrorLog");
+		
+		VBox vbox1 = new VBox(label, preview); 
 
-		HBox hbox = new HBox(new VBox(label, preview));
+		HBox hbox = new HBox(vbox1);
 		HBox hbox2 = new HBox(new VBox(label1, errorLog));
 		hbox.setAlignment(Pos.CENTER);
 		hbox2.setAlignment(Pos.CENTER);
@@ -110,7 +114,7 @@ public class GUI extends VBox{
 
 		list.addAll(hbox1, hbox, hbox2);
 
-		Scene scene = new Scene(vbox, 600, 500);
+		Scene scene = new Scene(vbox, 700, 600);
 
 		primaryStage.setScene(scene);
 		primaryStage.show();
