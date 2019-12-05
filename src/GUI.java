@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javafx.collections.ObservableList;
@@ -31,7 +33,9 @@ public class GUI extends VBox{
         //generating buttons and text boxes
         TextArea preview = new TextArea();
         preview.setWrapText(true);
+        preview.setMouseTransparent(true);
 		TextArea errorLog = new TextArea();
+		errorLog.setMouseTransparent(true);
 		Button button1 = new Button("Load");
 		Button button2 = new Button("Save as");
 		preview.setEditable(false);
@@ -41,9 +45,13 @@ public class GUI extends VBox{
 
 			File selectedFile = fileChooser.showOpenDialog(primaryStage);
 			
-			if(selectedFile.length() == 0) {
-				errorLog.appendText("File is Empty.");
+			System.out.println("why");
+			if(selectedFile == null) {
+				errorLog.appendText("File is Empty.\n");
 			}
+			System.out.println("why1");
+
+			
 			try {
 
 				FileReader file = new FileReader(selectedFile.getAbsolutePath());
@@ -51,11 +59,12 @@ public class GUI extends VBox{
 				formatString = new StringFormatter(br);
 				preview.setFont(Font.font("Monospace", 10.8));
 				preview.appendText(formatString.toString());
+				file.close();
+				br.close();
 
 
 			} catch (NullPointerException e1) {
-				// TODO Auto-generated catch block
-				errorLog.appendText("File not Found.");
+					errorLog.appendText("File not Found.\n");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -64,9 +73,20 @@ public class GUI extends VBox{
 
 		button2.setOnAction(e -> {
 
-
+			
 			// Show save file dialog
 			File file = fileChooser.showSaveDialog(primaryStage);
+			try {
+				BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+				bw.write(formatString.toString());
+				bw.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (NullPointerException e1) {
+				errorLog.appendText("Can't save empty file.\n");
+			}
+			
 
 
 		});
