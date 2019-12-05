@@ -165,29 +165,50 @@ public class StringFormatter {
 		return finalString;
 	}
 
+	//center justifies the text
 	public String centerJustify(String str) {
 		String finalString = "";
-		int spaces = 0;
+		int spaces = 1;
 		int limit = 80;
 
 		// line is under 80 characters
 		if (str.length() < limit) {
-			String[] wordList = str.split("\\s+");
-			while (finalString.length() <= limit - wordList[wordList.length - 1].length()) {
-				finalString = "";
-				for (int i = 0; i < wordList.length - 1; i++) {
-					finalString += wordList[i];
-					for (int j = 0; j < spaces; j++) {
-						finalString += " ";
+			//string contains no spaces
+			if(!str.contains(" ")) {
+				int padding = (limit - str.length())/2;
+				for(int i = 0; i < padding; i++)
+					finalString += " ";
+				finalString += str;
+				for(int i = 0; i < padding; i++)
+					finalString += " ";
+			}
+			//string contains spaces
+			else {
+				String[] wordList = str.split("\\s+");
+				while (finalString.length() < limit - wordList[wordList.length-1].length()) {
+					finalString = "";
+					//iterating through wordList to add words to the line
+					for (int j = 0; j < wordList.length - 1; j++) {
+						finalString += wordList[j];
+						//adding even spaces between each word
+						if(finalString.length() < limit - wordList[wordList.length-1].length()) {
+							finalString += " ";
+							for (int k = 0; k < spaces; k++) {
+								if(finalString.length() < limit - wordList[wordList.length-1].length())
+									finalString += " ";
+							}	
+						}
 					}
+					if(finalString.length() == limit - wordList[wordList.length-1].length())
+						finalString += wordList[wordList.length - 1];
+					spaces++;
 				}
-				finalString += wordList[wordList.length - 1];
-				spaces++;
 			}
 		}
 
 		// line is over 80 characters
 		else {
+			//string contains spaces
 			ArrayList<String> strings = new ArrayList<String>();
 			finalString = "";
 
@@ -202,18 +223,33 @@ public class StringFormatter {
 			for (int i = 0; i < strings.size(); i++) {
 				if (i < strings.size() - 1)
 					finalString += String.format("%80s", strings.get(i)) + "\n";
+				else if(!strings.get(i).contains(" ")) {
+					int padding = (limit - str.length())/2;
+					for(int z = 0; z < padding; z++)
+						finalString += " ";
+					finalString += str;
+					for(int z = 0; z < padding; z++)
+						finalString += " ";
+				}
 				else {
 					String temp = "";
 					String[] wordList = strings.get(i).split("\\s+");
-					while (temp.length() <= limit - wordList[wordList.length-1].length()) {
+					while (temp.length() < limit - wordList[wordList.length-1].length()) {
 						temp = "";
+						//iterating through wordList to add words to the line
 						for (int j = 0; j < wordList.length - 1; j++) {
 							temp += wordList[j];
-							for (int k = 0; k < spaces; k++) {
+							//adding even spaces between each word
+							if(temp.length() < limit - wordList[wordList.length-1].length()) {
 								temp += " ";
+								for (int k = 0; k < spaces; k++) {
+									if(temp.length() < limit - wordList[wordList.length-1].length())
+										temp += " ";
+								}	
 							}
 						}
-						temp += " " + wordList[wordList.length - 1];
+						if(temp.length() == limit - wordList[wordList.length-1].length())
+							temp += wordList[wordList.length - 1];
 						spaces++;
 					}
 					finalString += temp;
