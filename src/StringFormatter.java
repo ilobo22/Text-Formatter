@@ -30,38 +30,53 @@ public class StringFormatter {
 		}
 
 		public void formatAndClear() {
+			
+			if(removeIndent) {
+				//finalVal += removeIndent(text) + "\n";
+			}
 			if (rJust) {
-				finalVal += rightJustify(text);
+				finalVal += rightJustify(text) + "\n";
 			}
 			if (cJust) {
-
+				finalVal += centerJustify(text) + "\n";
 			}
 			if (lJust) {
-
+				
+				if(multIndent) {
+					finalVal += multipleIndent(text) + "\n";
+				}
+				else if(indent) {
+					finalVal += indent(text) + "\n";
+				}
+				else {
+					finalVal += leftJustify(text) + "\n";
+				}
+				
 			}
+//			if (indent) {
+//				finalVal += indent(text) + "\n";
+//			}
+//			if (multIndent) {
+//				
+//			}
+
 			if (tCenter) {
-
-			}
-			if (indent) {
-
-			}
-			if (multIndent) {
-
+				finalVal += centerTitle(text) + "\n";
 			}
 			if (blankline) {
-
+				//finalVal += blankLine(text) + "\n";
 			}
 			if (singleSpace) {
-
+				//finalVal += singleSpace(text) + "\n";
 			}
 			if (doubleSpace) {
-
+				//finalVal += doubleSpace(text) + "\n";
 			}
 			if (sCol) {
-
+				//finalVal += oneColumn(text) + "\n";
 			}
 			if (dCol) {
-
+				//finalVal += twoColumn(text) + "\n";
 			}
 
 			// text.clear();
@@ -70,10 +85,58 @@ public class StringFormatter {
 	}
 
 	private String finalVal;
+	
+	public String multipleIndent(String str) {
+		
+		String finalString = "";
+		String temp;
+		temp = str.replaceAll("(?m)^", "     ");
+		System.out.println(temp);
+		
+		finalString = leftJustify(temp);
+		
+		
+		return finalString;
+	}
+	
+	public String indent(String str) {
+		String finalString = "";
+		
+		String temp;
+		
+		temp = "     " + str;
+		
+		finalString = leftJustify(temp);
+		
+		return finalString;
+	}
 
+	
+	public String centerJustify(String str) {
+
+		String finalString = "";
+		int spaces = 0;
+		int limit = 80;
+		String[] wordList = str.split("\\W+");
+		while(finalString.length() <= limit-wordList[wordList.length-1].length())
+		{
+			finalString = "";
+			for(int i = 0; i < wordList.length-1; i++)
+			{
+				finalString += wordList[i];
+				for(int j = 0; j < spaces; j++)
+				{
+					finalString += " ";
+				}
+			}
+			finalString += wordList[wordList.length-1];
+			spaces++;
+		}
+		return finalString;
+	}
+	
 	// right justifies
-	String rightJustify(String str) {
-		System.out.println(str);
+	public String rightJustify(String str) {
 
 		int limit = 80;
 		ArrayList<String> strings = new ArrayList<String>();
@@ -94,16 +157,64 @@ public class StringFormatter {
 			else
 				finalString += String.format("%80s", strings.get(i));
 		}
-		System.out.println(finalString);
 
 		return finalString;
 	}
 
 	// left justifies
 	public String leftJustify(String str) {
-		return String.format("%-80s", str);
+		int limit = 80;
+		ArrayList<String> strings = new ArrayList<String>();
+		String finalString = "";
+		
+		//breaks strings into 80 character substrings and stores them
+		while(str.length() > limit)
+		{
+			strings.add(str.substring(0, limit));
+			str = str.substring(limit + 1, str.length());
+		}
+		strings.add(str);
+		
+		//combines substrings into one string
+		for(int i = 0; i < strings.size(); i++)
+		{
+			if(i < strings.size() - 1)
+				finalString += strings.get(i) + "\n";
+			else
+				finalString += strings.get(i);
+		}
+		return finalString;
+		
 	}
 
+	public String centerTitle(String str) {
+		int limit = 80;
+		int numSpaces = limit - (str.length() % limit);
+		String spacePadding = "";
+		for(int i = 0; i < numSpaces/2; i++)
+			spacePadding += " ";
+		ArrayList<String> strings = new ArrayList<String>();
+		String finalString = "";
+		
+		//breaks strings into 80 character substrings and stores them
+		while(str.length() > limit)
+		{
+			strings.add(str.substring(0, limit));
+			str = str.substring(limit + 1, str.length());
+		}
+		strings.add(str);
+		
+		//combines strings into one string
+		for(int i = 0; i < strings.size(); i++)
+		{
+			if(i < strings.size() - 1)
+				finalString += strings.get(i) + "\n";
+			else
+				finalString += spacePadding + strings.get(i) + spacePadding;
+		}
+		return finalString;
+	}
+	
 	// returns the final string
 	public String toString() {
 		return finalVal;
@@ -128,7 +239,6 @@ public class StringFormatter {
 				if (comSeenB4) {
 					format.formatAndClear();
 					comSeenB4 = false;
-					System.out.println("here");
 				}
 
 				switch (strCurrentLine.charAt(1)) {
@@ -136,44 +246,76 @@ public class StringFormatter {
 					format.rJust = true;
 					format.lJust = false;
 					format.cJust = false;
-					// temp = rightJustify(temp);
+					format.tCenter = false;
+					format.indent = false;
+					format.multIndent = false;
 					break;
 				case 'c':
 					format.cJust = true;
 					format.lJust = false;
 					format.rJust = false;
-					// temp = centerJustify(temp);
+					format.tCenter = false;
+					format.indent = false;
+					format.multIndent = false;
 					break;
 				case 'l':
 					format.rJust = false;
 					format.cJust = false;
 					format.lJust = true;
-					// temp = leftJustify(temp);
+					format.tCenter = false;
+					format.indent = false;
+					//format.multIndent = false;
 					break;
 				case 't':
 					format.tCenter = true;
-					// temp = centerTitle(finalVal);
+					format.lJust = false;
+					format.rJust = false;
+					format.cJust = false;
+					format.indent = false;
+					format.multIndent = false;
 					break;
-				case 'n': // temp = removeIndent(temp);
+				case 'n': 
+					format.removeIndent = true;
+					format.indent = false;
+					format.multIndent = false;
 					break;
-				case 'd': // temp = doubleSpace(temp);
+				case 'd': 
+					format.doubleSpace = true;
+					format.singleSpace = false;
+					// temp = doubleSpace(temp);
 					break;
-				case 's': // temp = singleSpace(temp);
+				case 's': 
+					format.singleSpace = true;
+					format.doubleSpace = false;
+					// temp = singleSpace(temp);
 					break;
-				case 'i': // temp = indent(temp);
+				case 'i': 
+					format.indent = true;
+					format.multIndent = false;
+					format.removeIndent = false;
+					// temp = indent(temp);
 					break;
-				case 'b': // temp = multipleIndent(temp);
+				case 'b': 
+					format.multIndent = true;
+					format.indent = false;
+					format.removeIndent = false;
+					// temp = multipleIndent(temp);
 					break;
-				case '2': // temp = twoColumns(temp);
+				case '2': 
+					format.dCol = true;
+					format.sCol = false;
+					// temp = twoColumns(temp);
 					break;
-				case '1': // temp = oneColumn(temp);
+				case '1': 
+					format.sCol = true;
+					format.dCol = false;
+					// temp = oneColumn(temp);
 					break;
-				case 'e': // temp = blankLine(temp);
+				case 'e': 
+					format.blankline = true;
 					break;
 				}
 
-				// if(toClear)
-				// format.clear();
 
 			}
 			// time to format the string!
@@ -181,7 +323,6 @@ public class StringFormatter {
 				// count2++;
 				comSeenB4 = true;
 				format.text += strCurrentLine;
-				System.out.println(format.text);
 			}
 		}
 		format.formatAndClear();

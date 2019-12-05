@@ -45,11 +45,9 @@ public class GUI extends VBox{
 
 			File selectedFile = fileChooser.showOpenDialog(primaryStage);
 			
-			System.out.println("why");
 			if(selectedFile == null) {
 				errorLog.appendText("File is Empty.\n");
 			}
-			System.out.println("why1");
 
 			
 			try {
