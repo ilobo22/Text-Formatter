@@ -5,165 +5,229 @@ import java.util.Arrays;
 
 public class StringFormatter {
 
+	private class WorkList {
+		public boolean rJust;// right justification
+		public boolean cJust;// center
+		public boolean lJust;// left
+		public boolean dCol;
+		public boolean sCol;
+		public boolean indent;
+		public boolean multIndent;
+		public boolean removeIndent;
+		public boolean blankline;
+		public boolean tCenter;// title center
+		public boolean singleSpace;
+		public boolean doubleSpace;
+		// public ArrayList<String> text;
+		String text;
+
+		public WorkList() {
+			lJust = true;
+			sCol = true;
+			singleSpace = true;
+			text = "";
+			finalVal = "";
+		}
+
+		public void formatAndClear() {
+			if (rJust) {
+				finalVal += rightJustify(text);
+			}
+			if (cJust) {
+
+			}
+			if (lJust) {
+
+			}
+			if (tCenter) {
+
+			}
+			if (indent) {
+
+			}
+			if (multIndent) {
+
+			}
+			if (blankline) {
+
+			}
+			if (singleSpace) {
+
+			}
+			if (doubleSpace) {
+
+			}
+			if (sCol) {
+				finalVal += text;
+			}
+			if (dCol) {
+				finalVal += twoColumn(text);
+			}
+
+			// text.clear();
+			text = "";
+		}
+	}
+
 	private String finalVal;
-	
-	ArrayList<String> commandList = new ArrayList<String>();
-	ArrayList<String> strList = new ArrayList<String>();
-	ArrayList<String> twoColOne = new ArrayList<String>();
-	ArrayList<String> twoColTwo = new ArrayList<String>();
-	
-	
-	
-	public StringFormatter(BufferedReader file) throws IOException {
-		
-		finalVal = ""; //the string that is to be formatted
-		//setting default formatting to one column, left justified, and single spaced
-//		commandList.add("-1");
-//		commandList.add("-l");
-//		commandList.add("-s");
-		int count1 = 0;
-		int count2 = 0;
-		System.out.println("Here?");
-		//reads until end of file
-		String strCurrentLine;
-		while ((strCurrentLine = file.readLine()) != null) {
-			
-			//a command is detected and added to list
-			if(strCurrentLine.indexOf('-') == 0) {
-				
-				System.out.println("Here2?");
-				if(count1>0 && count2>0) {
-					System.out.println("Here5?");
-					for(int i = 0; i < commandList.size(); i++) {
-						switch(commandList.get(i).charAt(1)) {
-						case 'r': //temp = rightJustify(temp);
-							break;
-						case 'c': //temp = centerJustify(temp);
-							break;
-						case 'l':// temp = leftJustify(temp);
-							break;
-						case 't': //temp = centerTitle(finalVal);
-							break;
-						case 'n': //temp = removeIndent(temp);
-							break;
-						case 'd': //temp = doubleSpace(temp);
-							break;
-						case 's': //temp = singleSpace(temp);
-							break;
-						case 'i': //temp = indent(temp);
-							break;
-						case 'b': //temp = multipleIndent(temp); Brandon
-							break;
-						case '2':  twoColumn(); //Brandon/Andrew
-							break;
-						case '1': //temp = oneColumn(temp);	Brandon
-							break;
-						case 'e': //temp = blankLine(temp); Brandon
-							break;
-						}
-					}
-					commandList.clear();
-					strList.clear();
-					count1 = 0;
-					count2 = 0;
-				}
-				
-				count1++;
-				commandList.add(strCurrentLine);
-				System.out.println(strCurrentLine);
-				System.out.println(count1);
-				
-			}
-			//time to format the string!
-			else {
-				count2++;
-				System.out.println("Here3?");
-				//String temp = "";
-				//temp += strCurrentLine;
-				strList.add(strCurrentLine);
-				//System.out.println(Arrays.toString(commandList.toArray()));
-				
-				//setting command list back to defaults
-//				commandList.clear();
-//				commandList.add("-1");
-//				commandList.add("-l");
-//				commandList.add("-s");
-				//finalVal+= temp;
-				//finalVal += "\n"; //reset for a new string to be formatted
-			}
-			
-			
-		}		
+
+	// right justifies
+	String rightJustify(String str) {
+		System.out.println(str);
+
+		int limit = 80;
+		ArrayList<String> strings = new ArrayList<String>();
+		String finalString = "";
+
+		// breaks strings into 80 character substrings and stores them
+		while (str.length() > limit) {
+			finalString = "";
+			strings.add(str.substring(0, limit));
+			str = str.substring(limit + 1, str.length());
+		}
+		strings.add(str);
+
+		// combines substrings into one string
+		for (int i = 0; i < strings.size(); i++) {
+			if (i < strings.size() - 1)
+				finalString += String.format("%80s", strings.get(i)) + "\n";
+			else
+				finalString += String.format("%80s", strings.get(i));
+		}
+		System.out.println(finalString);
+
+		return finalString;
 	}
-	
-	//right justifies 
-	public String rightJustify(String str) {
-		return String.format("%80s", str);
-	}
-	
-	//left justifies
+
+	// left justifies
 	public String leftJustify(String str) {
 		return String.format("%-80s", str);
 	}
-	
-	//returns the final string
+
+	// returns the final string
 	public String toString() {
 		return finalVal;
 	}
-	
-	public void twoColumn() {
-		int val = strList.size()/2;
-		int count = 0;
-		String temp = "";
-		String temp2 = "";
-		System.out.println("Here6?");
-		for(int i = 0; i < (strList.size()/2); i++) {
-			for(int j = 0; j < strList.get(i).length(); j++) {
-				if(temp.length() == 35) {
-					twoColOne.add(temp);
-					temp = "";
-				}
-				temp += strList.get(i).charAt(j);
-			}
-			
-			
-			System.out.println("Here7?");
-			for(int j = 0; j < strList.get(val).length(); j++) {
-				if(temp2.length() == 35) {
-					twoColTwo.add(temp2);
-					temp2 = "";
-				}
-				temp2 += strList.get(val).charAt(j);
-			}
-			
-			val++;
-		}
-		twoColOne.add(temp);
-		twoColTwo.add(temp2);
+
+	public String twoColumn(String str) {
+		int size = str.length();
+		int split = size/2;
 		
-		System.out.println("Here8?");
-		int size;
-		int size1 = twoColOne.size();
-		int size2 = twoColTwo.size();
-		if(size1 > size2) {
-			size = size1;
-		}
-		else {
-			size = size2;
-		}
-		for(int i = 0; i < size; i++) {
-			if(i < size1) {
-				finalVal += twoColOne.get(i);
+		String first = "";
+		String second = "";
+		String finalStr = "";
+		
+		first = str.substring(0, split);
+		second = str.substring(split, size);
+		
+		int count = 0;
+		int trackingOne = 0;
+		int trackingTwo = 0;
+		while(trackingOne < first.length() && trackingTwo < second.length()){
+			while(count < 35 && trackingOne < first.length()) {
+				finalStr += first.charAt(trackingOne);
+				count++;
+				trackingOne++;
 			}
+			if(count != 34) {
+				for(int i = 0; i <= (34 - count);i++) {
+					System.out.println(count);
+					finalStr += " ";
+				}
+			}
+			count = 0;
+			finalStr += "          ";
+			while(count < 35 && trackingTwo < second.length()) {
+				finalStr += second.charAt(trackingTwo);
+				count++;
+				trackingTwo++;
+			}
+			finalStr += "\n";
+			count = 0;
+		}	
+		return finalStr;
+	}
+	
+	ArrayList<String> commandList = new ArrayList<String>();
+
+	public StringFormatter(BufferedReader file) throws IOException {
+
+		WorkList format = new WorkList();
+
+		finalVal = ""; // the string that is to be formatted
+
+		boolean comSeenB4 = false;
+
+		// reads until end of file
+		String strCurrentLine;
+		while ((strCurrentLine = file.readLine()) != null) {
+
+			// a command is detected and added to list
+			if (strCurrentLine.indexOf('-') == 0) {
+				if (comSeenB4) {
+					format.formatAndClear();
+					comSeenB4 = false;
+					System.out.println("here");
+				}
+
+				switch (strCurrentLine.charAt(1)) {
+				case 'r':
+					format.rJust = true;
+					format.lJust = false;
+					format.cJust = false;
+					// temp = rightJustify(temp);
+					break;
+				case 'c':
+					format.cJust = true;
+					format.lJust = false;
+					format.rJust = false;
+					// temp = centerJustify(temp);
+					break;
+				case 'l':
+					format.rJust = false;
+					format.cJust = false;
+					format.lJust = true;
+					// temp = leftJustify(temp);
+					break;
+				case 't':
+					format.tCenter = true;
+					// temp = centerTitle(finalVal);
+					break;
+				case 'n': // temp = removeIndent(temp);
+					break;
+				case 'd': // temp = doubleSpace(temp);
+					break;
+				case 's': // temp = singleSpace(temp);
+					break;
+				case 'i': // temp = indent(temp);
+					break;
+				case 'b': // temp = multipleIndent(temp);
+					break;
+				case '2': 
+					format.dCol = true;
+					format.sCol = false;
+					break;
+				case '1': 
+					format.dCol = false;
+					format.sCol = true;
+					break;
+				case 'e': // temp = blankLine(temp);
+					break;
+				}
+
+				// if(toClear)
+				// format.clear();
+
+			}
+			// time to format the string!
 			else {
-				finalVal += "                                  ";
+				// count2++;
+				comSeenB4 = true;
+				format.text += strCurrentLine;
+				System.out.println(format.text);
 			}
-			finalVal += "          ";
-			if(i < size2) {
-				finalVal += twoColTwo.get(i);
-			}
-			finalVal += "\n";
 		}
-		System.out.println("Here9?");
+		format.formatAndClear();
+
 	}
 }
