@@ -32,7 +32,7 @@ public class GUI extends VBox{
 
         //generating buttons and text boxes
         TextArea preview = new TextArea();
-        preview.setPrefWidth(600);
+        preview.setPrefWidth(570);
         preview.setWrapText(true);
         //preview.setMouseTransparent(true);
 		TextArea errorLog = new TextArea();
