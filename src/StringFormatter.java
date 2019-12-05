@@ -109,20 +109,68 @@ public class StringFormatter {
 		String finalString = "";
 		int spaces = 0;
 		int limit = 80;
-		String[] wordList = str.split("\\W+");
-		while(finalString.length() <= limit-wordList[wordList.length-1].length())
+		
+		//line is under 80 characters
+		if(str.length() < limit)
 		{
-			finalString = "";
-			for(int i = 0; i < wordList.length-1; i++)
+			String[] wordList = str.split("\\s+");
+			while(finalString.length() <= limit-wordList[wordList.length-1].length())
 			{
-				finalString += wordList[i];
-				for(int j = 0; j < spaces; j++)
+				finalString = "";
+				for(int i = 0; i < wordList.length-1; i++)
 				{
-					finalString += " ";
+					finalString += wordList[i];
+					for(int j = 0; j < spaces; j++)
+					{
+						finalString += " ";
+					}
+				}
+				finalString += wordList[wordList.length-1];
+				spaces++;
+			}
+		}
+		
+		//line is over 80 characters
+		else
+		{
+			ArrayList<String> strings = new ArrayList<String>();
+			finalString = "";
+			
+			//breaks strings into 80 character substrings and stores them
+			while(str.length() > limit)
+			{
+				strings.add(str.substring(0, limit+1));
+				str = str.substring(limit + 1, str.length());
+			}
+			strings.add(str);
+			
+			//combines substrings into one string
+			for(int i = 0; i < strings.size(); i++)
+			{
+				if(i < strings.size() - 1)
+					finalString += String.format("%80s", strings.get(i)) + "\n";
+				else
+				{
+					System.out.println(strings.get(i));
+					String temp = "";
+					String[] wordList = strings.get(i).split("\\s+");
+					while(temp.length() <= limit-wordList[wordList.length-1].length())
+					{
+						temp = "";
+						for(int j = 0; j < wordList.length-1; j++)
+						{
+							temp += wordList[j];
+							for(int k = 0; k < spaces; k++)
+							{
+								temp += " ";
+							}
+						}
+						temp += wordList[wordList.length-1];
+						spaces++;
+					}
+					finalString += temp;
 				}
 			}
-			finalString += wordList[wordList.length-1];
-			spaces++;
 		}
 		return finalString;
 	}
