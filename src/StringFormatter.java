@@ -56,7 +56,7 @@ public class StringFormatter {
 						break;
 					case 'n': //temp = removeIndent(temp);
 						break;
-					case 'd': //temp = doubleSpace(temp);
+					case 'd': temp = doubleSpace(temp);
 						break;
 					case 's': //temp = singleSpace(temp);
 						break;
@@ -104,22 +104,8 @@ public class StringFormatter {
 		return finalString;
 	}
 	
-	
+	//center justifies the string
 	public String centerJustify(String str) {
-		/*
-		String spaces = "";
-		int numSpacesToAddEachGap;
-		int count = 0;
-		int numSpacesToAdd = 80 - str.length();
-		for(int i = 0; i < str.length(); i++)
-		{
-			if(str.charAt(i) == ' ')
-				count++;
-		}
-		numSpacesToAddEachGap = count/numSpacesToAdd;
-		
-		for(int i = 0; i < numSpacesToAddEachGap; i++)
-			spaces += " "; */
 		String finalString = "";
 		int spaces = 0;
 		int limit = 80;
@@ -193,6 +179,11 @@ public class StringFormatter {
 				finalString += spacePadding + strings.get(i) + spacePadding;
 		}
 		return finalString;
+	}
+	
+	public String doubleSpace(String str)
+	{
+		return str += "\n";
 	}
 	
 	//returns the final string
