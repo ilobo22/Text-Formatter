@@ -32,9 +32,9 @@ public class GUI extends VBox{
 
         //generating buttons and text boxes
         TextArea preview = new TextArea();
-        preview.setPrefWidth(1000);
+        preview.setPrefWidth(600);
         preview.setWrapText(true);
-        preview.setMouseTransparent(true);
+        
 		TextArea errorLog = new TextArea();
 		errorLog.setMouseTransparent(true);
 		Button button1 = new Button("Load");
@@ -46,11 +46,11 @@ public class GUI extends VBox{
 
 			File selectedFile = fileChooser.showOpenDialog(primaryStage);
 			
-			System.out.println("why");
+			
 			if(selectedFile == null) {
 				errorLog.appendText("File is Empty.\n");
 			}
-			System.out.println("why1");
+			
 
 			
 			try {
@@ -113,7 +113,7 @@ public class GUI extends VBox{
 
 		list.addAll(hbox1, hbox, hbox2);
 
-		Scene scene = new Scene(vbox, 600, 500);
+		Scene scene = new Scene(vbox, 700, 600);
 
 		primaryStage.setScene(scene);
 		primaryStage.show();

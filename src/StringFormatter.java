@@ -31,7 +31,7 @@ public class StringFormatter {
 
 		public void formatAndClear() {
 			if (rJust) {
-				finalVal += rightJustify(text);
+				text = rightJustify(text) + "\n";
 			}
 			if (cJust) {
 
@@ -43,7 +43,7 @@ public class StringFormatter {
 
 			}
 			if (indent) {
-
+				//calltext = indent(text)
 			}
 			if (multIndent) {
 
@@ -58,12 +58,12 @@ public class StringFormatter {
 
 			}
 			if (sCol) {
-				finalVal += text;
+				finalVal = text;
 			}
 			if (dCol) {
-				finalVal += twoColumn(text);
+				text = twoColumn(text) + "\n";
 			}
-
+			finalVal += text;
 			// text.clear();
 			text = "";
 		}
@@ -73,7 +73,7 @@ public class StringFormatter {
 
 	// right justifies
 	String rightJustify(String str) {
-		System.out.println(str);
+		
 
 		int limit = 80;
 		ArrayList<String> strings = new ArrayList<String>();
@@ -131,7 +131,6 @@ public class StringFormatter {
 			}
 			if(count != 34) {
 				for(int i = 0; i <= (34 - count);i++) {
-					System.out.println(count);
 					finalStr += " ";
 				}
 			}
@@ -145,6 +144,7 @@ public class StringFormatter {
 			finalStr += "\n";
 			count = 0;
 		}	
+		System.out.println(finalStr);
 		return finalStr;
 	}
 	
@@ -167,7 +167,7 @@ public class StringFormatter {
 				if (comSeenB4) {
 					format.formatAndClear();
 					comSeenB4 = false;
-					System.out.println("here");
+					
 				}
 
 				switch (strCurrentLine.charAt(1)) {
@@ -224,7 +224,7 @@ public class StringFormatter {
 				// count2++;
 				comSeenB4 = true;
 				format.text += strCurrentLine;
-				System.out.println(format.text);
+				
 			}
 		}
 		format.formatAndClear();
