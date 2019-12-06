@@ -1,0 +1,7 @@
+-r
+-i
+-d
+This should be right justified.
+-r
+This should be right justified.
+This should also be left justified.

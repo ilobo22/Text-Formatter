@@ -1,3 +1,6 @@
+/*
+ * This class generates the graphical user interface.
+ */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,9 +37,7 @@ public class GUI extends VBox{
         TextArea preview = new TextArea();
         preview.setPrefWidth(570);
         preview.setWrapText(true);
-        //preview.setMouseTransparent(true);
 		TextArea errorLog = new TextArea();
-		//errorLog.setMouseTransparent(true);
 		Button button1 = new Button("Load");
 		Button button2 = new Button("Save as");
 		preview.setEditable(false);
@@ -94,6 +95,7 @@ public class GUI extends VBox{
 
 		});
 
+		//formatting the graphical user interface
 		HBox hbox1 = new HBox(button1, button2);
 
 		hbox1.setAlignment(Pos.CENTER);

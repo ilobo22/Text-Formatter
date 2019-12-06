@@ -1,4 +1,7 @@
-//push test
+/*
+ * This is the driver class for the
+ * Text Formatter application.
+ */
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,7 +27,6 @@ public class main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
 		
 		GUI start = new GUI(primaryStage);
 
