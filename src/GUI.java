@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javafx.collections.ObservableList;
@@ -30,8 +32,11 @@ public class GUI extends VBox{
 
         //generating buttons and text boxes
         TextArea preview = new TextArea();
+        preview.setPrefWidth(570);
         preview.setWrapText(true);
+        //preview.setMouseTransparent(true);
 		TextArea errorLog = new TextArea();
+		//errorLog.setMouseTransparent(true);
 		Button button1 = new Button("Load");
 		Button button2 = new Button("Save as");
 		preview.setEditable(false);
@@ -41,21 +46,28 @@ public class GUI extends VBox{
 
 			File selectedFile = fileChooser.showOpenDialog(primaryStage);
 			
-			if(selectedFile.length() == 0) {
-				errorLog.appendText("File is Empty.");
+			if(selectedFile == null) {
+				errorLog.clear();
+				preview.clear();
+				errorLog.appendText("File is Empty.\n");
 			}
+
+			
 			try {
 
 				FileReader file = new FileReader(selectedFile.getAbsolutePath());
 				BufferedReader br = new BufferedReader(file);
 				formatString = new StringFormatter(br);
-				preview.setFont(Font.font("Monospace", 10.8));
+				preview.setFont(Font.font("Monospace", 11.1));
+				preview.clear();
+				errorLog.clear();
 				preview.appendText(formatString.toString());
+				file.close();
+				br.close();
 
 
 			} catch (NullPointerException e1) {
-				// TODO Auto-generated catch block
-				errorLog.appendText("File not Found.");
+					errorLog.appendText("File not Found.\n");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -64,9 +76,20 @@ public class GUI extends VBox{
 
 		button2.setOnAction(e -> {
 
-
+			
 			// Show save file dialog
 			File file = fileChooser.showSaveDialog(primaryStage);
+			try {
+				BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+				bw.write(formatString.toString());
+				bw.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (NullPointerException e1) {
+				errorLog.appendText("Can't save empty file.\n");
+			}
+			
 
 
 		});
@@ -82,8 +105,10 @@ public class GUI extends VBox{
 
 		Label label = new Label("Preview");
 		Label label1 = new Label("ErrorLog");
+		
+		VBox vbox1 = new VBox(label, preview); 
 
-		HBox hbox = new HBox(new VBox(label, preview));
+		HBox hbox = new HBox(vbox1);
 		HBox hbox2 = new HBox(new VBox(label1, errorLog));
 		hbox.setAlignment(Pos.CENTER);
 		hbox2.setAlignment(Pos.CENTER);
@@ -92,7 +117,7 @@ public class GUI extends VBox{
 
 		list.addAll(hbox1, hbox, hbox2);
 
-		Scene scene = new Scene(vbox, 600, 500);
+		Scene scene = new Scene(vbox, 700, 600);
 
 		primaryStage.setScene(scene);
 		primaryStage.show();
