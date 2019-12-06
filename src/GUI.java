@@ -36,7 +36,7 @@ public class GUI extends VBox{
         preview.setWrapText(true);
         //preview.setMouseTransparent(true);
 		TextArea errorLog = new TextArea();
-		errorLog.setMouseTransparent(true);
+		//errorLog.setMouseTransparent(true);
 		Button button1 = new Button("Load");
 		Button button2 = new Button("Save as");
 		preview.setEditable(false);
@@ -47,6 +47,8 @@ public class GUI extends VBox{
 			File selectedFile = fileChooser.showOpenDialog(primaryStage);
 			
 			if(selectedFile == null) {
+				errorLog.clear();
+				preview.clear();
 				errorLog.appendText("File is Empty.\n");
 			}
 
@@ -58,6 +60,7 @@ public class GUI extends VBox{
 				formatString = new StringFormatter(br);
 				preview.setFont(Font.font("Monospace", 11.1));
 				preview.clear();
+				errorLog.clear();
 				preview.appendText(formatString.toString());
 				file.close();
 				br.close();
