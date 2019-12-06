@@ -70,7 +70,6 @@ public class GUI extends VBox{
 			} catch (NullPointerException e1) {
 					errorLog.appendText("File not Found.\n");
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} 
 		});
@@ -85,7 +84,6 @@ public class GUI extends VBox{
 				bw.write(formatString.toString());
 				bw.close();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (NullPointerException e1) {
 				errorLog.appendText("Can't save empty file.\n");

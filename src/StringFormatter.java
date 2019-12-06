@@ -35,6 +35,7 @@ public class StringFormatter {
 
 		//formatting the current set of text and clearing it after
 		public void formatAndClear() {
+			
 			//using booleans to determine which formats to perform
 			if (rJust) {
 				text = rightJustify(text);
@@ -58,19 +59,24 @@ public class StringFormatter {
 				text = centerTitle(text) + "\n";
 			}
 			if(sCol) {
-				
+				//if there were no justification flags prior to the -1
+				//flag, it goes to this if statement to indent
 				if(indent && !lJust && !cJust && !rJust && !tCenter) {
 					text = "     " + text;
 				}
 			}
 
 			if (dCol) {
-
+				
+				//checks if there is a need to indent
+				//in the -2 flag
 				if (indent) {
 					text = "     " + text;
 					text = twoColumn(text, 35);
 				}		
 				else if(multIndent) {
+					//25 because 10 characters are
+					//reserved for spacing
 					text = twoColumn(text, 25);
 				} else {
 					text = twoColumn(text, 35);
@@ -79,6 +85,8 @@ public class StringFormatter {
 			}
 			if (doubleSpace) {
 				
+				//different formatting for double space
+				//for 1 and 2 columns
 				if(sCol) {
 					text = text.replaceAll("(.{80})", "$1\n\n") + "\n";
 				} else {
@@ -88,11 +96,17 @@ public class StringFormatter {
 			}
 			if (blankline) {
 				text = "\n" + text;
+				
+				//setting blankline boolean to false
+				//because this boolean should apply
+				//only to the immediate text following it
 				blankline = false;
 			}
 
+			//add changed text to our final string value
 			finalVal += text;
 
+			//clear the text string
 			text = "";
 		}
 	}
@@ -100,6 +114,11 @@ public class StringFormatter {
 	private String finalVal; //the final formatted text to be displayed in GUI
 
 	//formats text into two columns and returns it
+	//we have string input and the length of the line
+	//the column has to take up. When stop is 35,
+	//we are just creating 2 columns. When stop is 25,
+	//we are indenting multiple lines within the 2
+	//columns
 	public String twoColumn(String str, int stop) {
 		int size = str.length();
 		int split = size / 2;
@@ -108,6 +127,7 @@ public class StringFormatter {
 		String second = "";
 		String finalStr = "";
 
+		//split the input string into 2 strings
 		first = str.substring(0, split);
 		second = str.substring(split, size);
 
@@ -115,14 +135,23 @@ public class StringFormatter {
 		int trackingOne = 0;
 		int trackingTwo = 0;
 		while (trackingOne < first.length() && trackingTwo < second.length()) {
+			
+			//when stop is 25, we are indenting multiple lines
+			//and 10 spaces needs to be added before the next
+			//25 characters of text
 			if(stop == 25) {
 				finalStr += "          ";
 			}
+			
+			//add characters to the finalString
 			while (count < stop && trackingOne < first.length()) {
 				finalStr += first.charAt(trackingOne);
 				count++;
 				trackingOne++;
 			}
+			
+			//if a line is less than 25 or 35 characters, add
+			//spaces
 			if (count != (stop-1)) {
 				for (int i = 0; i <= ((stop-1) - count); i++) {
 					finalStr += " ";
@@ -130,6 +159,9 @@ public class StringFormatter {
 			}
 			count = 0;
 			finalStr += "          ";
+			
+			//same steps as above but for the 2nd column
+			//within the 2 columns
 			if(stop == 25) {
 				finalStr += "          ";
 			}
